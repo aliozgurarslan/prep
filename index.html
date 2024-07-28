@@ -26,6 +26,7 @@
             max-width: 800px;
             width: 100%;
             margin: 0 auto; /* Center the container */
+            overflow: hidden; /* Prevent overflow */
         }
 
         .grid {
@@ -130,6 +131,10 @@
             button {
                 padding: 8px 15px;
                 font-size: 14px;
+            }
+
+            .grid-item {
+                font-size: calc(8px + 1vw); /* Adjust font size for smaller screens */
             }
         }
 
