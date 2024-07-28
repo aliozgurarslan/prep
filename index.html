@@ -182,7 +182,8 @@
             align-items: center;
             font-size: 12px; /* Smaller font size */
             max-width: 400px;
-            width: 100%;
+            width: calc(100% - 20px); /* Ensure it fits within the viewport */
+            box-sizing: border-box;
         }
 
         .cookie-consent button {
