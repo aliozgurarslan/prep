@@ -19,6 +19,7 @@ new Vue({
         previousGuesses: [],
         attemptsLeft: 4,
         wrongGuessMessage: "",
+        nearMissMessage: "",
         successMessage: "",
         gameOverMessage: "",
         isWrong: false,
@@ -61,6 +62,8 @@ new Vue({
             }
         },
         checkResults() {
+            this.nearMissMessage = ""; // Reset near miss message
+
             if (this.selectedItems.length !== 4) {
                 this.wrongGuessMessage = 'Lütfen dört öğe seçin.';
                 return;
@@ -83,12 +86,15 @@ new Vue({
                 this.correctItems.push(...this.selectedItems);
                 this.wrongGuessMessage = "";
                 if (this.correctItems.length === this.items.length) {
-                    this.successMessage = "Tebrikler! Duvarı yendiniz! Her gün yeni bir duvar.";
+                    this.successMessage = "Tebrikler! Bütün grupları bildiniz!";
                     this.storeGameState();
                 }
             } else {
                 this.wrongGuessItems = [...this.selectedItems];
                 this.wrongGuessMessage = "Yanlış tahmin!";
+                if (this.isNearMiss(this.selectedItems)) {
+                    this.nearMissMessage = "Bir yaklaşık!";
+                }
                 this.isWrong = true;
                 setTimeout(() => {
                     this.isWrong = false;
@@ -97,7 +103,7 @@ new Vue({
                 this.attemptsLeft--;
                 if (this.attemptsLeft === 0) {
                     this.revealAllGroups();
-                    this.gameOverMessage = 'Bugün duvar galip geldi! Her gün yeni bir duvar.';
+                    this.gameOverMessage = 'Oyun bitti! Deneme hakkınız kalmadı. Yeniden oynamak için sayfayı güncelleyin.';
                     this.storeGameState();
                 }
             }
@@ -110,6 +116,12 @@ new Vue({
                 if (a[i] !== b[i]) return false;
             }
             return true;
+        },
+        isNearMiss(selectedItems) {
+            return this.correctGroups.some(group => {
+                let matchCount = selectedItems.filter(item => group.includes(item)).length;
+                return matchCount === 3;
+            });
         },
         shuffleItems() {
             this.items = this.items.sort(() => Math.random() - 0.5);
@@ -149,16 +161,6 @@ new Vue({
         acceptCookies() {
             localStorage.setItem('cookieConsent', true);
             this.showCookieConsent = false;
-        }
-    },
-    watch: {
-        selectedItems() {
-            const submitButton = document.querySelector("button:contains('Gönder')");
-            if (this.selectedItems.length === 4) {
-                submitButton.disabled = false;
-            } else {
-                submitButton.disabled = true;
-            }
         }
     }
 });
