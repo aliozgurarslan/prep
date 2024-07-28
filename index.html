@@ -53,10 +53,16 @@
             box-sizing: border-box;
         }
 
+        .correct-group div {
+            font-size: 12px; /* 10% smaller */
+            color: #E1FFE2; /* Update this line */
+            font-weight: 600; /* Semi-bold */
+        }
+
         .correct-group p {
             margin: 5px 0;
             font-size: 14px;
-            color: #E1FFE2; /* 90% black */
+            color: #E1FFE2; /* Update this line */
             font-weight: 600; /* Semi-bold */
             text-align: center;
         }
@@ -147,35 +153,36 @@
             font-size: 12px;
         }
 
-          .cookie-consent {
-        position: fixed;
-        bottom: 10px;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: #333;
-        color: white;
-        padding: 10px;
-        border-radius: 5px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 12px; /* Smaller font size */
-        max-width: 300px; /* Add a max-width to prevent it from stretching too far */
-    }
+        .cookie-consent {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px; /* Smaller font size */
+            max-width: 400px;
+            width: 100%;
+        }
 
-    .cookie-consent button {
-        background-color: #555D66;
-        border: none;
-        padding: 5px 10px;
-        cursor: pointer;
-        color: white;
-        font-size: 12px; /* Smaller font size */
-        border-radius: 3px;
-    }
+        .cookie-consent button {
+            background-color: #555D66;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            color: white;
+            font-size: 12px; /* Smaller font size */
+            border-radius: 3px;
+        }
 
-    .cookie-consent button:hover {
-        background-color: #777;
-    }
+        .cookie-consent button:hover {
+            background-color: #777;
+        }
     </style>
 </head>
 <body>
@@ -193,17 +200,17 @@
             </div>
         </div>
         <p class="attempts-left">Kalan hak: {{ attemptsLeft }}</p>
+        <div style="display: flex; justify-content: center;">
+            <button @click="deselectAll">Temizle</button>
+            <button @click="shuffleItems">Karıştır</button>
+            <button :disabled="selectedItems.length !== 4" :style="{ backgroundColor: selectedItems.length === 4 ? '#778290' : '#A3A7AC' }" @click="checkResults">Gönder</button>
+        </div>
         <div v-if="wrongGuessMessage || nearMissMessage" class="message">
             <span>{{ wrongGuessMessage }}</span>
             <span v-if="nearMissMessage"> {{ nearMissMessage }}</span>
         </div>
         <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
         <div v-if="gameOverMessage" class="game-over-message">{{ gameOverMessage }}</div>
-        <div style="display: flex; justify-content: center;">
-            <button @click="deselectAll">Temizle</button>
-            <button @click="shuffleItems">Karıştır</button>
-            <button :disabled="selectedItems.length !== 4" :style="{ backgroundColor: selectedItems.length === 4 ? '#778290' : '#A3A7AC' }" @click="checkResults">Gönder</button>
-        </div>
         <div class="wall-number">Duvar #2 - 28/07/2024</div>
         <div v-if="showCookieConsent" class="cookie-consent">
             Bu oyun seansınızı hatırlamak için çerez kullanmaktadır.
