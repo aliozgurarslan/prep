@@ -192,14 +192,14 @@
             </div>
         </div>
         <p class="attempts-left">Kalan hak: {{ attemptsLeft }}</p>
+        <div v-if="wrongGuessMessage || nearMissMessage" class="message">
+            <span>{{ wrongGuessMessage }}</span>
+            <span v-if="nearMissMessage"> {{ nearMissMessage }}</span>
+        </div>
         <div style="display: flex; justify-content: center;">
             <button @click="deselectAll">Temizle</button>
             <button @click="shuffleItems">Karıştır</button>
             <button :disabled="selectedItems.length !== 4" :style="{ backgroundColor: selectedItems.length === 4 ? '#778290' : '#A3A7AC' }" @click="checkResults">Gönder</button>
-        </div>
-        <div v-if="wrongGuessMessage || nearMissMessage" class="message">
-            <span>{{ wrongGuessMessage }}</span>
-            <span v-if="nearMissMessage"> {{ nearMissMessage }}</span>
         </div>
         <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
         <div v-if="gameOverMessage" class="game-over-message">{{ gameOverMessage }}</div>
