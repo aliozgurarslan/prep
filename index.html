@@ -149,13 +149,14 @@
             margin-top: 10px;
             font-size: 16px;
             color: green;
+            font-weight: 600;
         }
 
         .game-over-message {
             margin-top: 10px;
             font-size: 16px;
             color: #A24242; /* Dark red */
-            font-weight: bold;
+            font-weight: 600; /* Semi-bold */
         }
 
         .attempts-left {
@@ -215,13 +216,13 @@
                 {{ item }}
             </div>
         </div>
-        <div v-if="wrongGuessMessage || nearMissMessage" class="message">
+        <p class="attempts-left">Kalan hak: {{ attemptsLeft }}</p>
+        <div v-if="wrongGuessMessage || nearMissMessage || successMessage || gameOverMessage" class="message">
             <span>{{ wrongGuessMessage }}</span>
             <span v-if="nearMissMessage"> {{ nearMissMessage }}</span>
+            <span v-if="successMessage" class="success-message">{{ successMessage }}</span>
+            <span v-if="gameOverMessage" class="game-over-message">{{ gameOverMessage }}</span>
         </div>
-        <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
-        <div v-if="gameOverMessage" class="game-over-message">{{ gameOverMessage }}</div>
-        <p class="attempts-left">Kalan hak: {{ attemptsLeft }}</p>
         <div style="display: flex; justify-content: center;">
             <button @click="deselectAll">Temizle</button>
             <button @click="shuffleItems">Karıştır</button>
