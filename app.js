@@ -68,7 +68,7 @@ new Vue({
 
             let currentGuess = [...this.selectedItems].sort().toString();
             if (this.previousGuesses.includes(currentGuess)) {
-                this.wrongGuessMessage = 'Bu tahmini zaten yaptınız.';
+                this.wrongGuessMessage = 'Bu tahmini daha önce yaptınız.';
                 this.selectedItems = [];
                 return;
             }
@@ -97,7 +97,7 @@ new Vue({
                 this.attemptsLeft--;
                 if (this.attemptsLeft === 0) {
                     this.revealAllGroups();
-                    this.gameOverMessage = 'Bugün duvar galip geldi! Yeni bir duvar için yarın tekrar ziyaret edin.';
+                    this.gameOverMessage = 'Oyun bitti! Deneme hakkınız kalmadı. Yeniden oynamak için sayfayı güncelleyin.';
                     this.storeGameState();
                 }
             }
@@ -145,8 +145,8 @@ new Vue({
             }
         },
         acceptCookies() {
-            this.showCookieConsent = false;
             localStorage.setItem('cookieConsent', true);
+            this.showCookieConsent = false;
         }
     }
 });
