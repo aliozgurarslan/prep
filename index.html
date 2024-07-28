@@ -126,6 +126,12 @@
             color: #A24242;
         }
 
+        .near-miss-message {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #A24242;
+        }
+
         .success-message {
             margin-top: 10px;
             font-size: 16px;
@@ -194,6 +200,7 @@
             <button @click="checkResults" :disabled="selectedItems.length !== 4">Gönder</button>
         </div>
         <div v-if="wrongGuessMessage" class="message">{{ wrongGuessMessage }}</div>
+        <div v-if="nearMissMessage" class="near-miss-message">{{ nearMissMessage }}</div>
         <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
         <div v-if="gameOverMessage" class="game-over-message">{{ gameOverMessage }}</div>
         <div class="wall-number">Duvar #2 - 28/07/2024</div>
