@@ -147,35 +147,35 @@
             font-size: 12px;
         }
 
-        .cookie-consent {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            right: 10px;
-            max-width: 800px; /* Limit max width */
-            background-color: #333;
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12px; /* Smaller font size */
-        }
+          .cookie-consent {
+        position: fixed;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #333;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px; /* Smaller font size */
+        max-width: 300px; /* Add a max-width to prevent it from stretching too far */
+    }
 
-        .cookie-consent button {
-            background-color: #555D66;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-            color: white;
-            font-size: 12px; /* Smaller font size */
-            border-radius: 3px;
-        }
+    .cookie-consent button {
+        background-color: #555D66;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        color: white;
+        font-size: 12px; /* Smaller font size */
+        border-radius: 3px;
+    }
 
-        .cookie-consent button:hover {
-            background-color: #777;
-        }
+    .cookie-consent button:hover {
+        background-color: #777;
+    }
     </style>
 </head>
 <body>
