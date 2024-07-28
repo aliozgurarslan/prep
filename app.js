@@ -97,7 +97,7 @@ new Vue({
                 this.attemptsLeft--;
                 if (this.attemptsLeft === 0) {
                     this.revealAllGroups();
-                    this.gameOverMessage = 'Oyun bitti! Deneme hakkınız kalmadı. Yeniden oynamak için sayfayı güncelleyin.';
+                    this.gameOverMessage = 'Bugün duvar galip geldi! Her gün yeni bir duvar.';
                     this.storeGameState();
                 }
             }
