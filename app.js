@@ -22,11 +22,15 @@ new Vue({
         successMessage: "",
         gameOverMessage: "",
         isWrong: false,
-        wrongGuessItems: []
+        wrongGuessItems: [],
+        showCookieConsent: true
     },
     created() {
         this.shuffleItems();
         this.checkIfPlayedToday();
+        if (localStorage.getItem('cookieConsent')) {
+            this.showCookieConsent = false;
+        }
     },
     computed: {
         remainingItems() {
@@ -139,6 +143,10 @@ new Vue({
                 this.successMessage = gameState.successMessage;
                 this.gameOverMessage = gameState.gameOverMessage;
             }
+        },
+        acceptCookies() {
+            localStorage.setItem('cookieConsent', true);
+            this.showCookieConsent = false;
         }
     }
 });
