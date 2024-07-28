@@ -145,8 +145,8 @@ new Vue({
             }
         },
         acceptCookies() {
-            localStorage.setItem('cookieConsent', true);
             this.showCookieConsent = false;
+            localStorage.setItem('cookieConsent', true);
         }
     }
 });
