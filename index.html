@@ -53,6 +53,12 @@
             box-sizing: border-box;
         }
 
+        .correct-group div {
+            font-size: 90%;
+            font-weight: 600;
+            color: rgba(0, 0, 0, 0.9);
+        }
+
         .correct-group p {
             margin: 5px 0;
             font-size: 14px;
@@ -108,7 +114,6 @@
 
         button:disabled {
             background-color: #A3A7AC;
-            cursor: not-allowed;
         }
 
         button:hover {
@@ -131,6 +136,7 @@
             margin-top: 10px;
             font-size: 16px;
             color: green;
+            font-weight: bold;
         }
 
         .game-over-message {
@@ -161,25 +167,23 @@
             border-radius: 5px;
             font-size: 12px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            max-width: 300px;
-            width: 100%;
+            justify-content: center;
+            z-index: 1000;
         }
 
         .cookie-consent button {
-            background-color: #778290;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-            font-size: 12px;
-            border-radius: 3px;
             margin-left: 10px;
+            padding: 5px 10px;
+            font-size: 12px;
+            background-color: #555D66;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
         .cookie-consent button:hover {
-            background-color: #555D66;
+            background-color: #778290;
         }
     </style>
 </head>
@@ -201,7 +205,7 @@
         <div style="display: flex; justify-content: center;">
             <button @click="deselectAll">Temizle</button>
             <button @click="shuffleItems">Karıştır</button>
-            <button :disabled="selectedItems.length !== 4" @click="checkResults">Gönder</button>
+            <button @click="checkResults" :disabled="selectedItems.length !== 4">Gönder</button>
         </div>
         <div v-if="wrongGuessMessage" class="message">{{ wrongGuessMessage }}</div>
         <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
