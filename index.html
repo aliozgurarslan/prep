@@ -15,7 +15,6 @@
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
-            position: relative;
         }
 
         .container {
@@ -109,9 +108,10 @@
 
         button:disabled {
             background-color: #A3A7AC;
+            cursor: not-allowed;
         }
 
-        button:hover:enabled {
+        button:hover {
             background-color: #555D66;
         }
 
@@ -151,30 +151,35 @@
         }
 
         .cookie-consent {
-            position: absolute;
+            position: fixed;
             bottom: 10px;
             left: 50%;
             transform: translateX(-50%);
             background-color: #333;
             color: white;
-            padding: 10px 20px;
+            padding: 10px;
             border-radius: 5px;
+            font-size: 12px;
             display: flex;
+            justify-content: space-between;
             align-items: center;
+            max-width: 300px;
+            width: 100%;
         }
 
         .cookie-consent button {
-            margin-left: 10px;
-            padding: 5px 10px;
-            background-color: #555D66;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            background-color: #778290;
             color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            border-radius: 3px;
+            margin-left: 10px;
         }
 
         .cookie-consent button:hover {
-            background-color: #777D88;
+            background-color: #555D66;
         }
     </style>
 </head>
@@ -196,17 +201,16 @@
         <div style="display: flex; justify-content: center;">
             <button @click="deselectAll">Temizle</button>
             <button @click="shuffleItems">Karıştır</button>
-            <button @click="checkResults" :disabled="selectedItems.length !== 4">Gönder</button>
+            <button :disabled="selectedItems.length !== 4" @click="checkResults">Gönder</button>
         </div>
         <div v-if="wrongGuessMessage" class="message">{{ wrongGuessMessage }}</div>
         <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
         <div v-if="gameOverMessage" class="game-over-message">{{ gameOverMessage }}</div>
         <div class="wall-number">Duvar #2 - 28/07/2024</div>
-    </div>
-
-    <div class="cookie-consent" v-if="showCookieConsent">
-        Bu oyun seansınızı hatırlamak için çerez kullanmaktadır.
-        <button @click="acceptCookies">Kabul et</button>
+        <div v-if="showCookieConsent" class="cookie-consent">
+            Bu oyun seansınızı hatırlamak için çerez kullanmaktadır.
+            <button @click="acceptCookies">Kabul et</button>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
