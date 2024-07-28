@@ -27,8 +27,8 @@ new Vue({
         showCookieConsent: true
     },
     created() {
-        this.shuffleItems();
         this.checkIfPlayedToday();
+        this.shuffleItems();
         if (localStorage.getItem('cookieConsent')) {
             this.showCookieConsent = false;
         }
@@ -86,8 +86,8 @@ new Vue({
                 this.nearMissMessage = "";
                 if (this.correctItems.length === this.items.length) {
                     this.successMessage = "Tebrikler! Duvarı yendiniz! Her gün yeni bir duvar.";
-                    this.storeGameState();
                 }
+                this.storeGameState();
             } else {
                 this.wrongGuessItems = [...this.selectedItems];
                 this.wrongGuessMessage = "Yanlış tahmin!";
@@ -112,10 +112,8 @@ new Vue({
                 if (this.attemptsLeft === 0) {
                     this.revealAllGroups();
                     this.gameOverMessage = 'Bugün duvar galip geldi! Her gün yeni bir duvar.';
-                    this.storeGameState();
-                } else {
-                    this.storeGameState();
                 }
+                this.storeGameState();
             }
 
             this.selectedItems = [];
@@ -145,7 +143,11 @@ new Vue({
             localStorage.setItem('playedToday', true);
             localStorage.setItem('gameState', JSON.stringify({
                 correctItems: this.correctItems,
+                selectedItems: this.selectedItems,
+                previousGuesses: this.previousGuesses,
                 attemptsLeft: this.attemptsLeft,
+                wrongGuessMessage: this.wrongGuessMessage,
+                nearMissMessage: this.nearMissMessage,
                 successMessage: this.successMessage,
                 gameOverMessage: this.gameOverMessage
             }));
@@ -155,7 +157,11 @@ new Vue({
             const gameState = JSON.parse(localStorage.getItem('gameState'));
             if (playedToday && gameState) {
                 this.correctItems = gameState.correctItems;
+                this.selectedItems = gameState.selectedItems;
+                this.previousGuesses = gameState.previousGuesses;
                 this.attemptsLeft = gameState.attemptsLeft;
+                this.wrongGuessMessage = gameState.wrongGuessMessage;
+                this.nearMissMessage = gameState.nearMissMessage;
                 this.successMessage = gameState.successMessage;
                 this.gameOverMessage = gameState.gameOverMessage;
             }
