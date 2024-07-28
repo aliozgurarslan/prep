@@ -1,19 +1,24 @@
 new Vue({
     el: '#app',
     data: {
-        items: ["KARA", "HASAN", "GALİP", "ENİŞTE", "BAŞ", "ALT", "ÜST", "ARA", "GÜNEY", "KUZEY", "KANDİLLİ", "HİSAR", "KEFİYE", "KARPUZ", "ANAHTAR", "ZEYTİN AĞACI"],
+        items: [
+            "Paris", "Tokyo", "Rio de Janeiro", "Londra",
+            "Stokholm", "Tetik Parmak", "Dunning-Kruger", "Asperger",
+            "Mısır", "Plastik Ördek", "Emoji", "Güneş",
+            "Çay", "Sağlık", "Asker", "Ülkü"
+        ],
         shuffledItems: [],
         correctGroups: [
-            ["KARA", "HASAN", "GALİP", "ENİŞTE"],
-            ["BAŞ", "ALT", "ÜST", "ARA"],
-            ["GÜNEY", "KUZEY", "KANDİLLİ", "HİSAR"],
-            ["KEFİYE", "KARPUZ", "ANAHTAR", "ZEYTİN AĞACI"]
+            ["Paris", "Tokyo", "Rio de Janeiro", "Londra"],
+            ["Stokholm", "Tetik Parmak", "Dunning-Kruger", "Asperger"],
+            ["Mısır", "Plastik Ördek", "Emoji", "Güneş"],
+            ["Çay", "Sağlık", "Asker", "Ülkü"]
         ],
         correctGroupMessages: [
-            "Orhan Pamuk romanlarındaki katiller.",
-            "Türkçe ön ekler.",
-            "Boğaziçi Üniversitesi yerleşke isimleri.",
-            "Filistin direnişinin sembolleri."
+            "Son dört Olimpiyat Oyunları ev sahipleri",
+            "Sendromlar",
+            "Sarı resmedilirler",
+            "_____ Ocağı"
         ],
         correctItems: [],
         selectedItems: [],
