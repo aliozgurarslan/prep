@@ -68,7 +68,7 @@ new Vue({
 
             let currentGuess = [...this.selectedItems].sort().toString();
             if (this.previousGuesses.includes(currentGuess)) {
-                this.wrongGuessMessage = 'Bu tahmini daha önce yaptınız.';
+                this.wrongGuessMessage = 'Bu tahmini zaten yaptınız.';
                 this.selectedItems = [];
                 return;
             }
@@ -131,7 +131,8 @@ new Vue({
                 correctItems: this.correctItems,
                 attemptsLeft: this.attemptsLeft,
                 successMessage: this.successMessage,
-                gameOverMessage: this.gameOverMessage
+                gameOverMessage: this.gameOverMessage,
+                previousGuesses: this.previousGuesses
             }));
         },
         checkIfPlayedToday() {
@@ -142,11 +143,22 @@ new Vue({
                 this.attemptsLeft = gameState.attemptsLeft;
                 this.successMessage = gameState.successMessage;
                 this.gameOverMessage = gameState.gameOverMessage;
+                this.previousGuesses = gameState.previousGuesses;
             }
         },
         acceptCookies() {
             localStorage.setItem('cookieConsent', true);
             this.showCookieConsent = false;
+        }
+    },
+    watch: {
+        selectedItems() {
+            const submitButton = document.querySelector("button:contains('Gönder')");
+            if (this.selectedItems.length === 4) {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
         }
     }
 });
