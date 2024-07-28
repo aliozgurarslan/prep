@@ -2,6 +2,7 @@ new Vue({
     el: '#app',
     data: {
         items: ["KARA", "HASAN", "GALİP", "ENİŞTE", "BAŞ", "ALT", "ÜST", "ARA", "GÜNEY", "KUZEY", "KANDİLLİ", "HİSAR", "KEFİYE", "KARPUZ", "ANAHTAR", "ZEYTİN AĞACI"],
+        shuffledItems: [],
         correctGroups: [
             ["KARA", "HASAN", "GALİP", "ENİŞTE"],
             ["BAŞ", "ALT", "ÜST", "ARA"],
@@ -28,14 +29,16 @@ new Vue({
     },
     created() {
         this.checkIfPlayedToday();
-        this.shuffleItems();
+        if (this.shuffledItems.length === 0) {
+            this.shuffleItems();
+        }
         if (localStorage.getItem('cookieConsent')) {
             this.showCookieConsent = false;
         }
     },
     computed: {
         remainingItems() {
-            return this.items.filter(item => !this.correctItems.includes(item));
+            return this.shuffledItems.filter(item => !this.correctItems.includes(item));
         },
         correctGroupsWithMessages() {
             let groupsWithMessages = [];
@@ -126,7 +129,8 @@ new Vue({
             return true;
         },
         shuffleItems() {
-            this.items = this.items.sort(() => Math.random() - 0.5);
+            this.shuffledItems = [...this.items].sort(() => Math.random() - 0.5);
+            this.storeGameState();
         },
         deselectAll() {
             this.selectedItems = [];
@@ -149,7 +153,8 @@ new Vue({
                 wrongGuessMessage: this.wrongGuessMessage,
                 nearMissMessage: this.nearMissMessage,
                 successMessage: this.successMessage,
-                gameOverMessage: this.gameOverMessage
+                gameOverMessage: this.gameOverMessage,
+                shuffledItems: this.shuffledItems
             }));
         },
         checkIfPlayedToday() {
@@ -164,6 +169,9 @@ new Vue({
                 this.nearMissMessage = gameState.nearMissMessage;
                 this.successMessage = gameState.successMessage;
                 this.gameOverMessage = gameState.gameOverMessage;
+                this.shuffledItems = gameState.shuffledItems || this.items;
+            } else {
+                this.shuffleItems();
             }
         },
         acceptCookies() {
