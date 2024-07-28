@@ -62,8 +62,6 @@ new Vue({
             }
         },
         checkResults() {
-            this.nearMissMessage = ""; // Reset near miss message
-
             if (this.selectedItems.length !== 4) {
                 this.wrongGuessMessage = 'Lütfen dört öğe seçin.';
                 return;
@@ -85,25 +83,37 @@ new Vue({
             if (isCorrect) {
                 this.correctItems.push(...this.selectedItems);
                 this.wrongGuessMessage = "";
+                this.nearMissMessage = "";
                 if (this.correctItems.length === this.items.length) {
-                    this.successMessage = "Tebrikler! Bütün grupları bildiniz!";
+                    this.successMessage = "Tebrikler! Duvarı yendiniz! Her gün yeni bir duvar.";
                     this.storeGameState();
                 }
             } else {
                 this.wrongGuessItems = [...this.selectedItems];
                 this.wrongGuessMessage = "Yanlış tahmin!";
-                if (this.isNearMiss(this.selectedItems)) {
-                    this.nearMissMessage = "Bir yaklaşık!";
-                }
                 this.isWrong = true;
                 setTimeout(() => {
                     this.isWrong = false;
                     this.wrongGuessItems = [];
                 }, 3000);
                 this.attemptsLeft--;
+
+                // Check for near miss
+                let nearMiss = this.correctGroups.some(group => {
+                    let intersection = group.filter(item => this.selectedItems.includes(item));
+                    return intersection.length === 3;
+                });
+                if (nearMiss) {
+                    this.nearMissMessage = "Bir yaklaşık!";
+                } else {
+                    this.nearMissMessage = "";
+                }
+
                 if (this.attemptsLeft === 0) {
                     this.revealAllGroups();
-                    this.gameOverMessage = 'Oyun bitti! Deneme hakkınız kalmadı. Yeniden oynamak için sayfayı güncelleyin.';
+                    this.gameOverMessage = 'Bugün duvar galip geldi! Her gün yeni bir duvar.';
+                    this.storeGameState();
+                } else {
                     this.storeGameState();
                 }
             }
@@ -116,12 +126,6 @@ new Vue({
                 if (a[i] !== b[i]) return false;
             }
             return true;
-        },
-        isNearMiss(selectedItems) {
-            return this.correctGroups.some(group => {
-                let matchCount = selectedItems.filter(item => group.includes(item)).length;
-                return matchCount === 3;
-            });
         },
         shuffleItems() {
             this.items = this.items.sort(() => Math.random() - 0.5);
@@ -143,8 +147,7 @@ new Vue({
                 correctItems: this.correctItems,
                 attemptsLeft: this.attemptsLeft,
                 successMessage: this.successMessage,
-                gameOverMessage: this.gameOverMessage,
-                previousGuesses: this.previousGuesses
+                gameOverMessage: this.gameOverMessage
             }));
         },
         checkIfPlayedToday() {
@@ -155,12 +158,11 @@ new Vue({
                 this.attemptsLeft = gameState.attemptsLeft;
                 this.successMessage = gameState.successMessage;
                 this.gameOverMessage = gameState.gameOverMessage;
-                this.previousGuesses = gameState.previousGuesses;
             }
         },
         acceptCookies() {
-            localStorage.setItem('cookieConsent', true);
             this.showCookieConsent = false;
+            localStorage.setItem('cookieConsent', true);
         }
     }
 });
