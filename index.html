@@ -53,17 +53,12 @@
             box-sizing: border-box;
         }
 
-        .correct-group div {
-            font-size: 90%;
-            font-weight: 600;
-            color: rgba(0, 0, 0, 0.9);
-        }
-
         .correct-group p {
             margin: 5px 0;
-            font-size: 14px;
-            color: #FFFFFF;
+            font-size: 12.6px;
+            color: #EAEAEA;
             text-align: center;
+            font-weight: 600;
         }
 
         .grid-item {
@@ -114,9 +109,10 @@
 
         button:disabled {
             background-color: #A3A7AC;
+            cursor: not-allowed;
         }
 
-        button:hover {
+        button:hover:not(:disabled) {
             background-color: #555D66;
         }
 
@@ -168,22 +164,20 @@
             font-size: 12px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            z-index: 1000;
+            justify-content: space-between;
+            width: 300px;
+            box-sizing: border-box;
         }
 
         .cookie-consent button {
-            margin-left: 10px;
-            padding: 5px 10px;
-            font-size: 12px;
             background-color: #555D66;
             border: none;
+            color: white;
+            padding: 5px 10px;
             border-radius: 5px;
             cursor: pointer;
-        }
-
-        .cookie-consent button:hover {
-            background-color: #778290;
+            margin-left: 10px;
+            font-size: 12px;
         }
     </style>
 </head>
@@ -205,14 +199,14 @@
         <div style="display: flex; justify-content: center;">
             <button @click="deselectAll">Temizle</button>
             <button @click="shuffleItems">Karıştır</button>
-            <button @click="checkResults" :disabled="selectedItems.length !== 4">Gönder</button>
+            <button :disabled="selectedItems.length !== 4" @click="checkResults">Gönder</button>
         </div>
         <div v-if="wrongGuessMessage" class="message">{{ wrongGuessMessage }}</div>
         <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
         <div v-if="gameOverMessage" class="game-over-message">{{ gameOverMessage }}</div>
         <div class="wall-number">Duvar #2 - 28/07/2024</div>
         <div v-if="showCookieConsent" class="cookie-consent">
-            Bu oyun seansınızı hatırlamak için çerez kullanmaktadır.
+            <span>Bu oyun seansınızı hatırlamak için çerez kullanmaktadır.</span>
             <button @click="acceptCookies">Kabul et</button>
         </div>
     </div>
