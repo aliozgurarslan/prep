@@ -2,23 +2,23 @@ new Vue({
     el: '#app',
     data: {
         items: [
-            "Dilek", "Güreş", "Kin", "Zabıt",
-            "Keder", "Kasavet", "Tasa", "Yas",
-            "Sus", "Ölçü", "Kadans", "Gam",
-            "Ani", "Gordion", "Safranbolu", "Ulu Camii"
+            "Paris", "Tokyo", "Rio de Janeiro", "Londra",
+            "Stokholm", "Tetik Parmak", "Dunning-Kruger", "Asperger",
+            "Mısır", "Plastik Ördek", "Emoji", "Güneş",
+            "Çay", "Sağlık", "Asker", "Ülkü"
         ],
         shuffledItems: [],
         correctGroups: [
-            ["Dilek", "Güreş", "Kin", "Zabıt"],
-            ["Keder", "Kasavet", "Tasa", "Yas"],
-            ["Sus", "Ölçü", "Kadans", "Gam"],
-            ["Ani", "Gordion", "Safranbolu", "Ulu Camii"]
+            ["Paris", "Tokyo", "Rio de Janeiro", "Londra"],
+            ["Stokholm", "Tetik Parmak", "Dunning-Kruger", "Asperger"],
+            ["Mısır", "Plastik Ördek", "Emoji", "Güneş"],
+            ["Çay", "Sağlık", "Asker", "Ülkü"]
         ],
         correctGroupMessages: [
-            "_____ tutmak",
-            "\"Üzüntü\" ile eş anlamlı",
-            "Müzik teorisi terimleri",
-            "Anadolu'daki Unesco Dünya Kültür Mirası varlıklarından bazıları"
+            "Son dört Olimpiyat Oyunları ev sahipleri",
+            "Sendromlar",
+            "Sarı resmedilirler",
+            "_____ Ocağı"
         ],
         correctItems: [],
         selectedItems: [],
@@ -47,15 +47,16 @@ new Vue({
         },
         correctGroupsWithMessages() {
             let groupsWithMessages = [];
-            for (let i = 0; i < this.correctGroups.length; i++) {
-                let groupItems = this.correctGroups[i];
-                if (groupItems.every(item => this.correctItems.includes(item))) {
-                    groupsWithMessages.push({
-                        items: groupItems,
-                        message: this.correctGroupMessages[i]
-                    });
-                }
-            }
+            this.previousGuesses.forEach((guess, index) => {
+                this.correctGroups.forEach((group, i) => {
+                    if (this.arraysEqual(group.sort(), guess.sort())) {
+                        groupsWithMessages.push({
+                            items: group,
+                            message: this.correctGroupMessages[i]
+                        });
+                    }
+                });
+            });
             return groupsWithMessages;
         }
     },
@@ -76,13 +77,13 @@ new Vue({
             }
 
             let currentGuess = [...this.selectedItems].sort().toString();
-            if (this.previousGuesses.includes(currentGuess)) {
+            if (this.previousGuesses.map(guess => guess.sort().toString()).includes(currentGuess)) {
                 this.wrongGuessMessage = 'Bu tahmini zaten yaptınız.';
                 this.selectedItems = [];
                 return;
             }
 
-            this.previousGuesses.push(currentGuess);
+            this.previousGuesses.push([...this.selectedItems]);
 
             let isCorrect = this.correctGroups.some(group => {
                 return this.arraysEqual(group.sort(), this.selectedItems.sort());
