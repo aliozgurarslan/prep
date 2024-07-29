@@ -49,11 +49,11 @@
             gap: 5px;
             margin-bottom: 10px;
             width: 100%;
-            max-width: 600px; /* Ensure the maximum width matches the grid */
             background-color: #729B9B;
             padding: 10px;
             border-radius: 5px;
             box-sizing: border-box;
+            max-width: 800px;
         }
 
         .correct-group div {
@@ -120,10 +120,6 @@
             background-color: #555D66;
         }
 
-        button:disabled {
-            background-color: #A3A7AC;
-        }
-
         @media (max-width: 600px) {
             .grid, .correct-group {
                 grid-template-columns: repeat(4, 1fr);
@@ -153,7 +149,7 @@
         .success-message {
             margin-top: 10px;
             font-size: 16px;
-            color: #729B9B; /* Same as rectangles' background */
+            color: #2A3630; /* Green */
         }
 
         .game-over-message {
@@ -208,7 +204,7 @@
 </head>
 <body>
     <div id="app" class="container">
-        <h1 style="font-size: 18px;">Dört adet dörtlü grup oluştur!</h1>
+        <h1 style="font-size: 18px; color: #2A3630;">Dört adet dörtlü grup oluştur!</h1>
         <div class="correct-groups-container">
             <div v-for="(group, index) in correctGroupsWithMessages" :key="index" class="correct-group">
                 <div>{{ group.items.join(', ') }}</div>
@@ -228,11 +224,17 @@
         </div>
         <p class="attempts-left">Kalan hak: {{ attemptsLeft }}</p>
         <div style="display: flex; justify-content: center;">
-            <button :disabled="selectedItems.length === 0" @click="deselectAll">Temizle</button>
+            <button @click="deselectAll" :disabled="selectedItems.length === 0" :style="{ backgroundColor: selectedItems.length === 0 ? '#A3A7AC' : '#778290' }">Temizle</button>
             <button @click="shuffleItems">Karıştır</button>
             <button :disabled="selectedItems.length !== 4" :style="{ backgroundColor: selectedItems.length === 4 ? '#778290' : '#A3A7AC' }" @click="checkResults">Gönder</button>
         </div>
-        <div class="wall-number">Duvar #3 - 29/07/2024</div>
+        <div class="wall-number">
+            Duvar #3 - 29/07/2024
+            <br>
+            <a href="duvar_1.html">Duvar #1</a> | 
+            <a href="duvar_2.html">Duvar #2</a> | 
+            <a href="duvar_3.html">Duvar #3</a>
+        </div>
         <div v-if="showCookieConsent" class="cookie-consent">
             Bu oyun seansınızı hatırlamak için çerez kullanmaktadır.
             <button @click="acceptCookies">Kabul et</button>
