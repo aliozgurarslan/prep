@@ -25,8 +25,8 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             max-width: 800px;
             width: 100%;
-            margin: 0 auto; /* Center the container */
-            overflow: hidden; /* Prevent overflow */
+            margin: 0 auto;
+            overflow: hidden;
         }
 
         .grid {
@@ -57,14 +57,14 @@
 
         .correct-group div {
             font-size: 12px; /* 10% smaller */
-            color: #E1FFE2; /* Update this line */
+            color: #E1FFE2;
             font-weight: 600; /* Semi-bold */
         }
 
         .correct-group p {
             margin: 5px 0;
             font-size: 14px;
-            color: #E1FFE2; /* Update this line */
+            color: #E1FFE2;
             font-weight: 600; /* Semi-bold */
             text-align: center;
         }
@@ -134,7 +134,7 @@
             }
 
             .grid-item {
-                font-size: calc(8px + 1vw); /* Adjust font size for smaller screens */
+                font-size: calc(8px + 1vw);
             }
         }
 
@@ -149,14 +149,13 @@
             margin-top: 10px;
             font-size: 16px;
             color: green;
-            font-weight: 600;
         }
 
         .game-over-message {
             margin-top: 10px;
             font-size: 16px;
             color: #A24242; /* Dark red */
-            font-weight: 600; /* Semi-bold */
+            font-weight: bold;
         }
 
         .attempts-left {
@@ -181,9 +180,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 12px; /* Smaller font size */
+            font-size: 12px;
             max-width: 400px;
-            width: calc(100% - 20px); /* Ensure it fits within the viewport */
+            width: calc(100% - 20px);
             box-sizing: border-box;
         }
 
@@ -193,7 +192,7 @@
             padding: 5px 10px;
             cursor: pointer;
             color: white;
-            font-size: 12px; /* Smaller font size */
+            font-size: 12px;
             border-radius: 3px;
         }
 
@@ -216,13 +215,13 @@
                 {{ item }}
             </div>
         </div>
-        <p class="attempts-left">Kalan hak: {{ attemptsLeft }}</p>
         <div v-if="wrongGuessMessage || nearMissMessage || successMessage || gameOverMessage" class="message">
             <span>{{ wrongGuessMessage }}</span>
             <span v-if="nearMissMessage"> {{ nearMissMessage }}</span>
-            <span v-if="successMessage" class="success-message">{{ successMessage }}</span>
-            <span v-if="gameOverMessage" class="game-over-message">{{ gameOverMessage }}</span>
+            <span v-if="successMessage">{{ successMessage }}</span>
+            <span v-if="gameOverMessage">{{ gameOverMessage }}</span>
         </div>
+        <p class="attempts-left">Kalan hak: {{ attemptsLeft }}</p>
         <div style="display: flex; justify-content: center;">
             <button @click="deselectAll">Temizle</button>
             <button @click="shuffleItems">Karıştır</button>
