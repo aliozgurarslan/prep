@@ -17,7 +17,7 @@ new Vue({
         correctGroupMessages: [
             "_____ tutmak",
             "\"Üzüntü\" ile eş anlamlı",
-            "Müzik teorisi terimleri",
+            "Müzik terimleri",
             "Anadolu'daki Unesco Dünya Kültür Mirası varlıklarından bazıları"
         ],
         correctItems: [],
