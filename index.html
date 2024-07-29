@@ -49,6 +49,7 @@
             gap: 5px;
             margin-bottom: 10px;
             width: 100%;
+            max-width: 600px; /* Set maximum width */
             background-color: #729B9B;
             padding: 10px;
             border-radius: 5px;
@@ -115,7 +116,11 @@
             transition: background-color 0.3s;
         }
 
-        button:hover {
+        button:disabled {
+            background-color: #A3A7AC;
+        }
+
+        button:hover:not(:disabled) {
             background-color: #555D66;
         }
 
@@ -215,17 +220,17 @@
                 {{ item }}
             </div>
         </div>
-        <p class="attempts-left">Kalan hak: {{ attemptsLeft }}</p>
         <div v-if="wrongGuessMessage || nearMissMessage || successMessage || gameOverMessage" class="message">
             <span>{{ wrongGuessMessage }}</span>
             <span v-if="nearMissMessage"> {{ nearMissMessage }}</span>
-            <span v-if="successMessage" class="success-message">{{ successMessage }}</span>
-            <span v-if="gameOverMessage" class="game-over-message">{{ gameOverMessage }}</span>
+            <span v-if="successMessage"> {{ successMessage }}</span>
+            <span v-if="gameOverMessage"> {{ gameOverMessage }}</span>
         </div>
+        <p class="attempts-left">Kalan hak: {{ attemptsLeft }}</p>
         <div style="display: flex; justify-content: center;">
-            <button :disabled="selectedItems.length === 0" :style="{ backgroundColor: selectedItems.length > 0 ? '#778290' : '#A3A7AC' }" @click="deselectAll">Temizle</button>
+            <button :disabled="selectedItems.length === 0" @click="deselectAll">Temizle</button>
             <button @click="shuffleItems">Karıştır</button>
-            <button :disabled="selectedItems.length !== 4" :style="{ backgroundColor: selectedItems.length === 4 ? '#778290' : '#A3A7AC' }" @click="checkResults">Gönder</button>
+            <button :disabled="selectedItems.length !== 4" @click="checkResults">Gönder</button>
         </div>
         <div class="wall-number">Duvar #3 - 29/07/2024</div>
         <div v-if="showCookieConsent" class="cookie-consent">
