@@ -1,10 +1,25 @@
 new Vue({
     el: '#app',
     data: {
-        items: [],
+        items: [
+            "Güreş", "Dilek", "Zabıt", "Kin",
+            "Keder", "Kasavet", "Tasa", "Yas",
+            "Sus", "Ölçü", "Kadans", "Gam",
+            "Gordion", "Safranbolu", "Ani", "Ulu Camii"
+        ],
         shuffledItems: [],
-        correctGroups: [],
-        correctGroupMessages: [],
+        correctGroups: [
+            ["Güreş", "Dilek", "Zabıt", "Kin"],
+            ["Keder", "Kasavet", "Tasa", "Yas"],
+            ["Sus", "Ölçü", "Kadans", "Gam"],
+            ["Gordion", "Safranbolu", "Ani", "Ulu Camii"]
+        ],
+        correctGroupMessages: [
+            "_____ tutmak",
+            "\"Üzüntü\" ile eş anlamlı",
+            "Müzik teorisi terimleri",
+            "Anadolu'daki Unesco Dünya Kültür Mirası varlıklarından bazıları"
+        ],
         correctItems: [],
         selectedItems: [],
         previousGuesses: [],
@@ -15,14 +30,9 @@ new Vue({
         gameOverMessage: "",
         isWrong: false,
         wrongGuessItems: [],
-        showCookieConsent: true,
-        wallNumber: 3,
-        wallDate: "2024-07-29",
-        googleSheetId: 'your_google_sheet_id_here',  // Replace with your Google Sheet ID
-        apiKey: 'your_api_key_here'  // Replace with your Google Sheets API key
+        showCookieConsent: true
     },
     created() {
-        this.fetchWallData();
         this.checkIfPlayedToday();
         if (this.shuffledItems.length === 0) {
             this.shuffleItems();
@@ -50,31 +60,6 @@ new Vue({
         }
     },
     methods: {
-        fetchWallData() {
-            const sheetRange = 'Sheet1!A2:H'; // Adjust the range according to your sheet structure
-            const url = `https://sheets.googleapis.com/v4/spreadsheets/${this.googleSheetId}/values/${sheetRange}?key=${this.apiKey}`;
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    const rows = data.values;
-                    for (const row of rows) {
-                        if (parseInt(row[0]) === this.wallNumber) {
-                            this.wallDate = row[1];
-                            this.correctGroups = [
-                                row[2].split(', '),
-                                row[3].split(', '),
-                                row[4].split(', '),
-                                row[5].split(', ')
-                            ];
-                            this.correctGroupMessages = [row[6], row[6], row[6], row[6]]; // Assuming the same message for all groups
-                            this.items = this.correctGroups.flat();
-                            this.shuffleItems();
-                            break;
-                        }
-                    }
-                })
-                .catch(error => console.error('Error fetching data:', error));
-        },
         toggleSelection(item) {
             if (this.selectedItems.includes(item)) {
                 this.selectedItems = this.selectedItems.filter(i => i !== item);
