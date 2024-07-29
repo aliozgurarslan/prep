@@ -18,7 +18,7 @@ new Vue({
             "_____ tutmak",
             "\"Üzüntü\" ile eş anlamlı",
             "Müzik terimleri",
-            "Anadolu'daki Unesco Dünya Kültür Mirası varlıklarından bazıları"
+            "Unesco Dünya Kültür Mirası varlıkları"
         ],
         correctItems: [],
         selectedItems: [],
