@@ -2,17 +2,17 @@ new Vue({
     el: '#app',
     data: {
         items: [
-            "Güreş", "Dilek", "Zabıt", "Kin",
+            "Dilek", "Güreş", "Kin", "Zabıt",
             "Keder", "Kasavet", "Tasa", "Yas",
             "Sus", "Ölçü", "Kadans", "Gam",
-            "Gordion", "Safranbolu", "Ani", "Ulu Camii"
+            "Ani", "Gordion", "Safranbolu", "Ulu Camii"
         ],
         shuffledItems: [],
         correctGroups: [
-            ["Güreş", "Dilek", "Zabıt", "Kin"],
+            ["Dilek", "Güreş", "Kin", "Zabıt"],
             ["Keder", "Kasavet", "Tasa", "Yas"],
             ["Sus", "Ölçü", "Kadans", "Gam"],
-            ["Gordion", "Safranbolu", "Ani", "Ulu Camii"]
+            ["Ani", "Gordion", "Safranbolu", "Ulu Camii"]
         ],
         correctGroupMessages: [
             "_____ tutmak",
