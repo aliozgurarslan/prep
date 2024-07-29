@@ -2,27 +2,26 @@ new Vue({
     el: '#app',
     data: {
         items: [
-            "Kara", "Hasan", "Galip", "Enişte",
-            "Baş", "Alt", "Üst", "Ara",
-            "Güney", "Kuzey", "Kandilli", "Hisar",
-            "Kefiye", "Karpuz", "Anahtar", "Zeytin Ağacı"
+            "Güreş", "Dilek", "Zabıt", "Kin",
+            "Keder", "Kasavet", "Tasa", "Yas",
+            "Sus", "Ölçü", "Kadans", "Gam",
+            "Gordion", "Safranbolu", "Ani", "Ulu Camii"
         ],
         shuffledItems: [],
         correctGroups: [
-            ["Kara", "Hasan", "Galip", "Enişte"],
-            ["Baş", "Alt", "Üst", "Ara"],
-            ["Güney", "Kuzey", "Kandilli", "Hisar"],
-            ["Kefiye", "Karpuz", "Anahtar", "Zeytin Ağacı"]
+            ["Güreş", "Dilek", "Zabıt", "Kin"],
+            ["Keder", "Kasavet", "Tasa", "Yas"],
+            ["Sus", "Ölçü", "Kadans", "Gam"],
+            ["Gordion", "Safranbolu", "Ani", "Ulu Camii"]
         ],
         correctGroupMessages: [
-            "Orhan Pamuk romanlarındaki katiller",
-            "Türkçe ön ekler",
-            "Boğaziçi Üniversitesi yerleşke isimleri",
-            "Filistin Direnişinin Sembolleri"
+            "_____ tutmak",
+            "\"Üzüntü\" ile eş anlamlı",
+            "Müzik teorisi terimleri",
+            "Anadolu'daki Unesco Dünya Kültür Mirası varlıklarından bazıları"
         ],
         correctItems: [],
         selectedItems: [],
-        guessedGroups: [],
         previousGuesses: [],
         attemptsLeft: 4,
         wrongGuessMessage: "",
@@ -48,15 +47,12 @@ new Vue({
         },
         correctGroupsWithMessages() {
             let groupsWithMessages = [];
-            for (let i = 0; i < this.guessedGroups.length; i++) {
-                let group = this.guessedGroups[i];
-                let groupIndex = this.correctGroups.findIndex(correctGroup => 
-                    this.arraysEqual(correctGroup.sort(), group.sort())
-                );
-                if (groupIndex !== -1) {
+            for (let i = 0; i < this.correctGroups.length; i++) {
+                let groupItems = this.correctGroups[i];
+                if (groupItems.every(item => this.correctItems.includes(item))) {
                     groupsWithMessages.push({
-                        items: group,
-                        message: this.correctGroupMessages[groupIndex]
+                        items: groupItems,
+                        message: this.correctGroupMessages[i]
                     });
                 }
             }
@@ -94,7 +90,6 @@ new Vue({
 
             if (isCorrect) {
                 this.correctItems.push(...this.selectedItems);
-                this.guessedGroups.push([...this.selectedItems]);
                 this.wrongGuessMessage = "";
                 this.nearMissMessage = "";
                 if (this.correctItems.length === this.items.length) {
@@ -150,7 +145,6 @@ new Vue({
                 let groupItems = this.correctGroups[i];
                 if (!groupItems.every(item => this.correctItems.includes(item))) {
                     this.correctItems.push(...groupItems);
-                    this.guessedGroups.push(groupItems);
                 }
             }
         },
@@ -158,7 +152,6 @@ new Vue({
             localStorage.setItem('playedToday', true);
             localStorage.setItem('gameState', JSON.stringify({
                 correctItems: this.correctItems,
-                guessedGroups: this.guessedGroups,
                 selectedItems: this.selectedItems,
                 previousGuesses: this.previousGuesses,
                 attemptsLeft: this.attemptsLeft,
@@ -174,7 +167,6 @@ new Vue({
             const gameState = JSON.parse(localStorage.getItem('gameState'));
             if (playedToday && gameState) {
                 this.correctItems = gameState.correctItems;
-                this.guessedGroups = gameState.guessedGroups;
                 this.selectedItems = gameState.selectedItems;
                 this.previousGuesses = gameState.previousGuesses;
                 this.attemptsLeft = gameState.attemptsLeft;
