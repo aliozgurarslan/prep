@@ -18,8 +18,8 @@ new Vue({
         showCookieConsent: true,
         wallNumber: 3,
         wallDate: "2024-07-29",
-        googleSheetId: '1N9cfDPLzUYAlFEktD7swRvIrBbZXAh8bQJr6mbaHcRo',  // Replace with your Google Sheet ID
-        apiKey: 'AIzaSyD-oHqREj31UiDqXcpbvfqBH9GFOr2TAe0'  // Replace with your Google Sheets API key
+        googleSheetId: 'your_google_sheet_id_here',  // Replace with your Google Sheet ID
+        apiKey: 'your_api_key_here'  // Replace with your Google Sheets API key
     },
     created() {
         this.fetchWallData();
@@ -51,7 +51,7 @@ new Vue({
     },
     methods: {
         fetchWallData() {
-            const sheetRange = 'Sheet1!A2:G'; // Adjust the range according to your sheet structure
+            const sheetRange = 'Sheet1!A2:H'; // Adjust the range according to your sheet structure
             const url = `https://sheets.googleapis.com/v4/spreadsheets/${this.googleSheetId}/values/${sheetRange}?key=${this.apiKey}`;
             fetch(url)
                 .then(response => response.json())
