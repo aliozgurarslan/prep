@@ -1,25 +1,20 @@
 new Vue({
     el: '#app',
     data: {
-       items: [
-        "Çember", "Tam", "Keçi", "Top", 
-        "Çeşitlilik", "Tehlike", "Sfer", "Mühendislik", 
-        "Ardıç", "Hepileri", "Akyürek", "Günaydın", 
-        "Topuz", "Kılıç", "Mızrak", "Pala"
-    ],
-    shuffledItems: [],
-    correctGroups: [
-        ["Çember", "Tam", "Keçi", "Top"],
-        ["Çeşitlilik", "Tehlike", "Sfer", "Mühendislik"],
-        ["Ardıç", "Hepileri", "Akyürek", "Günaydın"],
-        ["Topuz", "Kılıç", "Mızrak", "Pala"]
-    ],
-    correctGroupMessages: [
-        "Sakal tipleri",
-        "Biyo_____",
-        "Tanınmış Engin'ler",
-        "İlkel silahlar"
-    ],
+        items: ["Çember", "Tam", "Keçi", "Top", "Çeşitlilik", "Tehlike", "Sfer", "Mühendislik", "Ardıç", "Hepileri", "Akyürek", "Günaydın", "Topuz", "Kılıç", "Mızrak", "Pala"],
+        shuffledItems: [],
+        correctGroups: [
+            ["Çember", "Tam", "Keçi", "Top"],
+            ["Çeşitlilik", "Tehlike", "Sfer", "Mühendislik"],
+            ["Ardıç", "Hepileri", "Akyürek", "Günaydın"],
+            ["Topuz", "Kılıç", "Mızrak", "Pala"]
+        ],
+        correctGroupMessages: [
+            "Sakal tipleri",
+            "Biyo_____",
+            "Tanınmış Engin'ler",
+            "İlkel silahlar"
+        ],
         correctItems: [],
         selectedItems: [],
         previousGuesses: [],
@@ -30,8 +25,7 @@ new Vue({
         gameOverMessage: "",
         isWrong: false,
         wrongGuessItems: [],
-        showCookieConsent: true,
-        guessedGroups: [] // Add this to keep track of guessed groups
+        showCookieConsent: true
     },
     created() {
         this.checkIfPlayedToday();
@@ -47,7 +41,17 @@ new Vue({
             return this.shuffledItems.filter(item => !this.correctItems.includes(item));
         },
         correctGroupsWithMessages() {
-            return this.guessedGroups;
+            let groupsWithMessages = [];
+            for (let i = 0; i < this.correctGroups.length; i++) {
+                let groupItems = this.correctGroups[i];
+                if (groupItems.every(item => this.correctItems.includes(item))) {
+                    groupsWithMessages.push({
+                        items: groupItems.sort((a, b) => this.correctItems.indexOf(a) - this.correctItems.indexOf(b)),
+                        message: this.correctGroupMessages[i]
+                    });
+                }
+            }
+            return groupsWithMessages;
         }
     },
     methods: {
@@ -76,12 +80,11 @@ new Vue({
             this.previousGuesses.push(currentGuess);
 
             let isCorrect = this.correctGroups.some(group => {
-                return this.arraysEqual(group.sort(), this.selectedItems.sort());
+                return this.arraysEqual(group, this.selectedItems);
             });
 
             if (isCorrect) {
                 this.correctItems.push(...this.selectedItems);
-                this.guessedGroups.push({ items: [...this.selectedItems], message: this.getGroupMessage(this.selectedItems) }); // Track guessed groups
                 this.wrongGuessMessage = "";
                 this.nearMissMessage = "";
                 if (this.correctItems.length === this.items.length) {
@@ -151,8 +154,7 @@ new Vue({
                 nearMissMessage: this.nearMissMessage,
                 successMessage: this.successMessage,
                 gameOverMessage: this.gameOverMessage,
-                shuffledItems: this.shuffledItems,
-                guessedGroups: this.guessedGroups // Store guessed groups
+                shuffledItems: this.shuffledItems
             }));
         },
         checkIfPlayedToday() {
@@ -168,19 +170,9 @@ new Vue({
                 this.successMessage = gameState.successMessage;
                 this.gameOverMessage = gameState.gameOverMessage;
                 this.shuffledItems = gameState.shuffledItems || this.items;
-                this.guessedGroups = gameState.guessedGroups || []; // Restore guessed groups
             } else {
                 this.shuffleItems();
             }
-        },
-        getGroupMessage(selectedItems) {
-            for (let i = 0; i < this.correctGroups.length; i++) {
-                let group = this.correctGroups[i];
-                if (this.arraysEqual(group.sort(), selectedItems.sort())) {
-                    return this.correctGroupMessages[i];
-                }
-            }
-            return "";
         },
         acceptCookies() {
             this.showCookieConsent = false;
