@@ -25,8 +25,8 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             max-width: 800px;
             width: 100%;
-            margin: 0 auto; /* Center the container */
-            overflow: hidden; /* Prevent overflow */
+            margin: 0 auto;
+            overflow: hidden;
         }
 
         .grid {
@@ -53,20 +53,20 @@
             padding: 10px;
             border-radius: 5px;
             box-sizing: border-box;
-            max-width: 100%; /* Ensure it doesn't exceed the container */
+            max-width: 100%;
         }
 
         .correct-group div {
-            font-size: 12px; /* 10% smaller */
-            color: #E1FFE2; /* Update this line */
-            font-weight: 600; /* Semi-bold */
+            font-size: 12px;
+            color: #E1FFE2;
+            font-weight: 600;
         }
 
         .correct-group p {
             margin: 5px 0;
             font-size: 14px;
-            color: #E1FFE2; /* Update this line */
-            font-weight: 600; /* Semi-bold */
+            color: #E1FFE2;
+            font-weight: 600;
             text-align: center;
         }
 
@@ -135,27 +135,27 @@
             }
 
             .grid-item {
-                font-size: calc(8px + 1vw); /* Adjust font size for smaller screens */
+                font-size: calc(8px + 1vw);
             }
         }
 
         .message {
             margin-top: 10px;
             font-size: 14px;
-            color: #A24242; /* Dark red */
-            font-weight: 600; /* Semi-bold */
+            color: #A24242;
+            font-weight: 600;
         }
 
         .success-message {
             margin-top: 10px;
             font-size: 16px;
-            color: #729B9B; /* Matching the green rectangles */
+            color: #729B8C;
         }
 
         .game-over-message {
             margin-top: 10px;
             font-size: 16px;
-            color: #A24242; /* Dark red */
+            color: #A24242;
             font-weight: bold;
         }
 
@@ -181,9 +181,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 12px; /* Smaller font size */
+            font-size: 12px;
             max-width: 400px;
-            width: calc(100% - 20px); /* Ensure it fits within the viewport */
+            width: calc(100% - 20px);
             box-sizing: border-box;
         }
 
@@ -193,12 +193,34 @@
             padding: 5px 10px;
             cursor: pointer;
             color: white;
-            font-size: 12px; /* Smaller font size */
+            font-size: 12px;
             border-radius: 3px;
         }
 
         .cookie-consent button:hover {
             background-color: #777;
+        }
+
+        .small-print {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .past-episodes {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #2A3630;
+        }
+
+        .past-episodes a {
+            color: #2A3630;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .past-episodes a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -228,13 +250,14 @@
             <button @click="shuffleItems">Karıştır</button>
             <button :disabled="selectedItems.length !== 4" :style="{ backgroundColor: selectedItems.length === 4 ? '#778290' : '#A3A7AC' }" @click="checkResults">Gönder</button>
         </div>
-        <div class="wall-number">Duvar #5 - 31/07/2024</div>
+        <div class="wall-number">Duvar #<span id="wall-number"></span> - <span id="current-date"></span></div>
+        <div class="small-print">Duvarınızı paylaşın, yayınlansın. E-posta: ali+duvar@betacomms.com</div>
+        <div class="past-episodes"><a href="past-episodes.html">Geçmiş Bölümler</a></div>
         <div v-if="showCookieConsent" class="cookie-consent">
             Bu oyun seansınızı hatırlamak için çerez kullanmaktadır.
             <button @click="acceptCookies">Kabul et</button>
         </div>
     </div>
-
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-0ZLPEHH99V"></script>
     <script>
