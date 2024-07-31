@@ -1,20 +1,25 @@
 new Vue({
     el: '#app',
     data: {
-        items: ["1921", "1924", "1961", "1982", "1960", "1971", "1980", "2016", "1920", "0912", "2019", "2901", "0001", "0010", "0011", "0100"],
-        shuffledItems: [],
-        correctGroups: [
-            ["1921", "1924", "1961", "1982"],
-            ["1960", "1971", "1980", "2016"],
-            ["1920", "0912", "2019", "2901"],
-            ["0001", "0010", "0011", "0100"]
-        ],
-        correctGroupMessages: [
-            "20. yüzyıldaki anayasal gelişmeler",
-            "Darbeler ve darbe girişimleri",
-            "Sayısal anagramlar",
-            "İkili sayı sisteminde 1'den 4'e kadar sayılar"
-        ],
+       items: [
+        "Çember", "Tam", "Keçi", "Top", 
+        "Çeşitlilik", "Tehlike", "Sfer", "Mühendislik", 
+        "Ardıç", "Hepileri", "Akyürek", "Günaydın", 
+        "Topuz", "Kılıç", "Mızrak", "Pala"
+    ],
+    shuffledItems: [],
+    correctGroups: [
+        ["Çember", "Tam", "Keçi", "Top"],
+        ["Çeşitlilik", "Tehlike", "Sfer", "Mühendislik"],
+        ["Ardıç", "Hepileri", "Akyürek", "Günaydın"],
+        ["Topuz", "Kılıç", "Mızrak", "Pala"]
+    ],
+    correctGroupMessages: [
+        "Sakal tipleri",
+        "Biyo_____",
+        "Tanınmış Engin'ler",
+        "İlkel silahlar"
+    ],
         correctItems: [],
         selectedItems: [],
         previousGuesses: [],
