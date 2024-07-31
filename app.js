@@ -1,12 +1,12 @@
 new Vue({
     el: '#app',
     data: {
-        items: ["1921", "1924", "1961", "1982", "1960", "1971", "1980", "2016", "1920", "912", "2019", "2901", "0001", "0010", "0011", "0100"],
+        items: ["1921", "1924", "1961", "1982", "1960", "1971", "1980", "2016", "1920", "0912", "2019", "2901", "0001", "0010", "0011", "0100"],
         shuffledItems: [],
         correctGroups: [
             ["1921", "1924", "1961", "1982"],
             ["1960", "1971", "1980", "2016"],
-            ["1920", "912", "2019", "2901"],
+            ["1920", "0912", "2019", "2901"],
             ["0001", "0010", "0011", "0100"]
         ],
         correctGroupMessages: [
@@ -25,7 +25,8 @@ new Vue({
         gameOverMessage: "",
         isWrong: false,
         wrongGuessItems: [],
-        showCookieConsent: true
+        showCookieConsent: true,
+        guessedGroups: [] // Add this to keep track of guessed groups
     },
     created() {
         this.checkIfPlayedToday();
@@ -41,17 +42,7 @@ new Vue({
             return this.shuffledItems.filter(item => !this.correctItems.includes(item));
         },
         correctGroupsWithMessages() {
-            let groupsWithMessages = [];
-            for (let i = 0; i < this.correctGroups.length; i++) {
-                let groupItems = this.correctGroups[i];
-                if (groupItems.every(item => this.correctItems.includes(item))) {
-                    groupsWithMessages.push({
-                        items: groupItems,
-                        message: this.correctGroupMessages[i]
-                    });
-                }
-            }
-            return groupsWithMessages;
+            return this.guessedGroups;
         }
     },
     methods: {
@@ -70,7 +61,7 @@ new Vue({
                 return;
             }
 
-            let currentGuess = [...this.selectedItems].toString();
+            let currentGuess = [...this.selectedItems].sort().toString();
             if (this.previousGuesses.includes(currentGuess)) {
                 this.wrongGuessMessage = 'Bu tahmini zaten yaptınız.';
                 this.selectedItems = [];
@@ -80,11 +71,12 @@ new Vue({
             this.previousGuesses.push(currentGuess);
 
             let isCorrect = this.correctGroups.some(group => {
-                return this.arraysEqual(group, this.selectedItems);
+                return this.arraysEqual(group.sort(), this.selectedItems.sort());
             });
 
             if (isCorrect) {
                 this.correctItems.push(...this.selectedItems);
+                this.guessedGroups.push({ items: [...this.selectedItems], message: this.getGroupMessage(this.selectedItems) }); // Track guessed groups
                 this.wrongGuessMessage = "";
                 this.nearMissMessage = "";
                 if (this.correctItems.length === this.items.length) {
@@ -154,7 +146,8 @@ new Vue({
                 nearMissMessage: this.nearMissMessage,
                 successMessage: this.successMessage,
                 gameOverMessage: this.gameOverMessage,
-                shuffledItems: this.shuffledItems
+                shuffledItems: this.shuffledItems,
+                guessedGroups: this.guessedGroups // Store guessed groups
             }));
         },
         checkIfPlayedToday() {
@@ -170,9 +163,19 @@ new Vue({
                 this.successMessage = gameState.successMessage;
                 this.gameOverMessage = gameState.gameOverMessage;
                 this.shuffledItems = gameState.shuffledItems || this.items;
+                this.guessedGroups = gameState.guessedGroups || []; // Restore guessed groups
             } else {
                 this.shuffleItems();
             }
+        },
+        getGroupMessage(selectedItems) {
+            for (let i = 0; i < this.correctGroups.length; i++) {
+                let group = this.correctGroups[i];
+                if (this.arraysEqual(group.sort(), selectedItems.sort())) {
+                    return this.correctGroupMessages[i];
+                }
+            }
+            return "";
         },
         acceptCookies() {
             this.showCookieConsent = false;
