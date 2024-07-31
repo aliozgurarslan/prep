@@ -1,24 +1,19 @@
 new Vue({
     el: '#app',
     data: {
-        items: [
-            "Güreş", "Dilek", "Zabıt", "Kin",
-            "Keder", "Kasavet", "Tasa", "Yas",
-            "Sus", "Ölçü", "Kadans", "Gam",
-            "Gordion", "Safranbolu", "Ani", "Ulu Camii"
-        ],
+        items: ["1921", "1924", "1961", "1982", "1960", "1971", "1980", "2016", "1920", "912", "2019", "2901", "0001", "0010", "0011", "0100"],
         shuffledItems: [],
         correctGroups: [
-            ["Güreş", "Dilek", "Zabıt", "Kin"],
-            ["Keder", "Kasavet", "Tasa", "Yas"],
-            ["Sus", "Ölçü", "Kadans", "Gam"],
-            ["Gordion", "Safranbolu", "Ani", "Ulu Camii"]
+            ["1921", "1924", "1961", "1982"],
+            ["1960", "1971", "1980", "2016"],
+            ["1920", "912", "2019", "2901"],
+            ["0001", "0010", "0011", "0100"]
         ],
         correctGroupMessages: [
-            "_____ tutmak",
-            "\"Üzüntü\" ile eş anlamlı",
-            "Müzik teorisi terimleri",
-            "Anadolu'daki Unesco Dünya Kültür Mirası varlıklarından bazıları"
+            "20. yüzyıldaki anayasal gelişmeler",
+            "Darbeler ve darbe girişimleri",
+            "Sayısal anagramlar",
+            "İkili sayı sisteminde 1'den 4'e kadar sayılar"
         ],
         correctItems: [],
         selectedItems: [],
@@ -30,8 +25,7 @@ new Vue({
         gameOverMessage: "",
         isWrong: false,
         wrongGuessItems: [],
-        showCookieConsent: true,
-        orderOfGuesses: [] // To keep the order of correct guesses
+        showCookieConsent: true
     },
     created() {
         this.checkIfPlayedToday();
@@ -48,13 +42,14 @@ new Vue({
         },
         correctGroupsWithMessages() {
             let groupsWithMessages = [];
-            for (let i = 0; i < this.orderOfGuesses.length; i++) {
-                let groupItems = this.orderOfGuesses[i];
-                let message = this.correctGroupMessages[this.correctGroups.findIndex(group => this.arraysEqual(group.sort(), groupItems.sort()))];
-                groupsWithMessages.push({
-                    items: groupItems,
-                    message: message
-                });
+            for (let i = 0; i < this.correctGroups.length; i++) {
+                let groupItems = this.correctGroups[i];
+                if (groupItems.every(item => this.correctItems.includes(item))) {
+                    groupsWithMessages.push({
+                        items: groupItems,
+                        message: this.correctGroupMessages[i]
+                    });
+                }
             }
             return groupsWithMessages;
         }
@@ -75,7 +70,7 @@ new Vue({
                 return;
             }
 
-            let currentGuess = [...this.selectedItems].sort().toString();
+            let currentGuess = [...this.selectedItems].toString();
             if (this.previousGuesses.includes(currentGuess)) {
                 this.wrongGuessMessage = 'Bu tahmini zaten yaptınız.';
                 this.selectedItems = [];
@@ -85,12 +80,11 @@ new Vue({
             this.previousGuesses.push(currentGuess);
 
             let isCorrect = this.correctGroups.some(group => {
-                return this.arraysEqual(group.sort(), this.selectedItems.sort());
+                return this.arraysEqual(group, this.selectedItems);
             });
 
             if (isCorrect) {
                 this.correctItems.push(...this.selectedItems);
-                this.orderOfGuesses.push([...this.selectedItems]);
                 this.wrongGuessMessage = "";
                 this.nearMissMessage = "";
                 if (this.correctItems.length === this.items.length) {
@@ -146,7 +140,6 @@ new Vue({
                 let groupItems = this.correctGroups[i];
                 if (!groupItems.every(item => this.correctItems.includes(item))) {
                     this.correctItems.push(...groupItems);
-                    this.orderOfGuesses.push([...groupItems]);
                 }
             }
         },
@@ -161,8 +154,7 @@ new Vue({
                 nearMissMessage: this.nearMissMessage,
                 successMessage: this.successMessage,
                 gameOverMessage: this.gameOverMessage,
-                shuffledItems: this.shuffledItems,
-                orderOfGuesses: this.orderOfGuesses
+                shuffledItems: this.shuffledItems
             }));
         },
         checkIfPlayedToday() {
@@ -178,7 +170,6 @@ new Vue({
                 this.successMessage = gameState.successMessage;
                 this.gameOverMessage = gameState.gameOverMessage;
                 this.shuffledItems = gameState.shuffledItems || this.items;
-                this.orderOfGuesses = gameState.orderOfGuesses || [];
             } else {
                 this.shuffleItems();
             }
