@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dört adet dörtlü grup oluştur!</title>
+    <link rel="stylesheet" type="text/css" href="style.css?v={{VERSION_STRING}}">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -268,13 +270,10 @@
       gtag('config', 'G-0ZLPEHH99V');
     </script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
-    <script>
-        var script = document.createElement('script');
-        var date = new Date();
-        var year = date.getFullYear();
-        var month = ("0" + (date.getMonth() + 1)).slice(-2);
-        var day = ("0" + date.getDate()).slice(-2);
-        var dateString = year + month + day;
+<script>
+      const today = new Date();
+      const version = today.getFullYear().toString() + (today.getMonth() + 1).toString().padStart(2, '0') + today.getDate().toString().padStart(2, '0');
+      document.write('<script src="app.js?v=' + version + '"><\/script>');
 
         // Calculate the wall number based on the start date (Duvar #1 is on 27/07/2024)
         var startDate = new Date("2024-07-27");
