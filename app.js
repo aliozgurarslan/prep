@@ -1,19 +1,19 @@
 new Vue({
     el: '#app',
     data: {
-        items: ["Çember", "Tam", "Keçi", "Top", "Çeşitlilik", "Tehlike", "Sfer", "Mühendislik", "Ardıç", "Hepileri", "Akyürek", "Günaydın", "Topuz", "Kılıç", "Mızrak", "Pala"],
+        items: ["Buldozer", "Amerikan", "Fransız", "Sanayi", "Odak", "Diyfram", "Objektif", "ISO", "Balalayka", "Üçgen", "Tulum", "Rebap", "Balaklava", "Kulaklık", "Bot", "Polar"],
         shuffledItems: [],
         correctGroups: [
-            ["Çember", "Tam", "Keçi", "Top"],
-            ["Çeşitlilik", "Tehlike", "Sfer", "Mühendislik"],
-            ["Ardıç", "Hepileri", "Akyürek", "Günaydın"],
-            ["Topuz", "Kılıç", "Mızrak", "Pala"]
+            ["Buldozer", "Amerikan", "Fransız", "Sanayi"], // Devrimler
+            ["Odak", "Diyfram", "Objektif", "ISO"], // Fotoğrafçılık terimleri
+            ["Balalayka", "Üçgen", "Tulum", "Rebap"], // Sazlar
+            ["Balaklava", "Kulaklık", "Bot", "Polar"] // Soğuktan korurlar
         ],
         correctGroupMessages: [
-            "Sakal tipleri",
-            "Biyo_____",
-            "Tanınmış Engin'ler",
-            "İlkel silahlar"
+            "Devrimler",
+            "Fotoğrafçılık terimleri",
+            "Sazlar",
+            "Soğuktan korurlar"
         ],
         correctItems: [],
         selectedItems: [],
@@ -41,17 +41,10 @@ new Vue({
             return this.shuffledItems.filter(item => !this.correctItems.includes(item));
         },
         correctGroupsWithMessages() {
-            let groupsWithMessages = [];
-            for (let i = 0; i < this.correctGroups.length; i++) {
-                let groupItems = this.correctGroups[i];
-                if (groupItems.every(item => this.correctItems.includes(item))) {
-                    groupsWithMessages.push({
-                        items: groupItems.sort((a, b) => this.correctItems.indexOf(a) - this.correctItems.indexOf(b)),
-                        message: this.correctGroupMessages[i]
-                    });
-                }
-            }
-            return groupsWithMessages;
+            return this.correctGroups.map((group, index) => ({
+                items: group,
+                message: this.correctGroupMessages[index]
+            })).filter(group => group.items.every(item => this.correctItems.includes(item)));
         }
     },
     methods: {
@@ -80,7 +73,7 @@ new Vue({
             this.previousGuesses.push(currentGuess);
 
             let isCorrect = this.correctGroups.some(group => {
-                return this.arraysEqual(group, this.selectedItems);
+                return this.arraysEqual(group.sort(), this.selectedItems.sort());
             });
 
             if (isCorrect) {
@@ -101,7 +94,6 @@ new Vue({
                 }, 3000);
                 this.attemptsLeft--;
 
-                // Check for near miss
                 let nearMiss = this.correctGroups.some(group => {
                     let intersection = group.filter(item => this.selectedItems.includes(item));
                     return intersection.length === 3;
@@ -136,12 +128,11 @@ new Vue({
             this.selectedItems = [];
         },
         revealAllGroups() {
-            for (let i = 0; i < this.correctGroups.length; i++) {
-                let groupItems = this.correctGroups[i];
-                if (!groupItems.every(item => this.correctItems.includes(item))) {
-                    this.correctItems.push(...groupItems);
+            this.correctGroups.forEach(group => {
+                if (!group.every(item => this.correctItems.includes(item))) {
+                    this.correctItems.push(...group);
                 }
-            }
+            });
         },
         storeGameState() {
             localStorage.setItem('playedToday', true);
