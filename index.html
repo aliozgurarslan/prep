@@ -83,6 +83,25 @@
             background-color: #555D66;
         }
 
+        @media (max-width: 600px) {
+            .grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            button {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+
+            .grid-item {
+                font-size: calc(8px + 1vw);
+            }
+        }
+
         .wall-number {
             margin-top: 10px;
             font-size: 14px;
@@ -96,9 +115,9 @@
             <!-- Grid items injected here by Vue.js -->
         </div>
         <div style="display: flex; justify-content: center; margin-top: 10px;">
-            <button>Temizle</button>
-            <button>Karıştır</button>
-            <button>Gönder</button>
+            <button @click="deselectAll">Temizle</button>
+            <button @click="shuffleItems">Karıştır</button>
+            <button @click="checkResults">Gönder</button>
         </div>
         <div class="wall-number">Duvar #7 - 02/08/2024</div>
     </div>
