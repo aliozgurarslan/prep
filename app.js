@@ -9,17 +9,19 @@ new Vue({
             ["Kuru", "Açık", "Düz", "Mavi"],
             ["Vakı", "Şavap", "Kovuk", "Biva"]
         ],
-        correctGroupMessages: ["Şarap çeşitleri", "____saray", "Sözdizimsel yinelenmelerinde kendinde olmayan bir harf ile belirlenenler", "R'leri söyleyemeyen insanların içecek siparişleri"],
+        correctGroupMessages: [
+            "Şarap çeşitleri",
+            "____saray",
+            "Sözdizimsel yinelemelerinde kendinde olmayan bir harf ile belirlenenler",
+            "R'leri söyleyemeyen insanların içecek siparişleri"
+        ],
         correctItems: [],
         selectedItems: [],
         previousGuesses: [],
         attemptsLeft: 4,
         wrongGuessMessage: "",
-        nearMissMessage: "",
         successMessage: "",
-        gameOverMessage: "",
-        isWrong: false,
-        wrongGuessItems: []
+        gameOverMessage: ""
     },
     created() {
         this.shuffleItems();
@@ -59,17 +61,10 @@ new Vue({
                 }
                 this.wrongGuessMessage = "";
             } else {
-                this.wrongGuessItems = [...this.selectedItems];
                 this.wrongGuessMessage = "Yanlış tahmin!";
-                this.isWrong = true;
-                setTimeout(() => {
-                    this.isWrong = false;
-                    this.wrongGuessItems = [];
-                }, 3000);
                 this.attemptsLeft--;
                 if (this.attemptsLeft === 0) {
                     this.gameOverMessage = 'Bugün duvar galip geldi! Her gün yeni bir duvar.';
-                    this.revealAllGroups();
                 }
             }
 
@@ -77,13 +72,6 @@ new Vue({
         },
         shuffleItems() {
             this.shuffledItems = [...this.items].sort(() => Math.random() - 0.5);
-        },
-        revealAllGroups() {
-            this.correctGroups.forEach(group => {
-                if (group.some(item => !this.correctItems.includes(item))) {
-                    this.correctItems.push(...group);
-                }
-            });
         },
         deselectAll() {
             this.selectedItems = [];
